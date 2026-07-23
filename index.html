@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Costos de Transporte FADEEAC v3.0</title>
+    <!-- Tailwind CSS y FontAwesome -->
+    <script src="https://jsdelivr.net"></script>
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <!-- Vinculación del estilo personalizado -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8 font-sans">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Encabezado -->
+        <header class="mb-8 border-b border-slate-700 pb-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-amber-400 flex items-center gap-3">
+                        <i class="fa-solid fa-truck-fast"></i> Simulador FADEEAC v3.0
+                    </h1>
+                    <p class="text-slate-400 mt-1">Análisis predictivo de costos fijos, variables y desvíos para Junio 2026</p>
+                </div>
+                <div class="bg-slate-800 px-4 py-2 rounded-lg border border-slate-700 text-sm">
+                    <span class="text-slate-400">Variación ICT FADEEAC:</span>
+                    <strong class="text-emerald-400 ml-1">+1,81%</strong>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Panel de Controles -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl">
+                    <h2 class="text-lg font-bold mb-4 text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-wallet"></i> 1. Tu Presupuesto Base
+                    </h2>
+                    <label class="block text-sm text-slate-400 mb-2">Gasto Operativo Mensual Total ($)</label>
+                    <input type="number" id="baseBudget" value="1000000" step="10000" class="input-custom">
+                </div>
+
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl space-y-4">
+                    <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+                        <i class="fa-solid fa-map-location-dot"></i> 2. Viaje de Referencia
+                    </h2>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">Elegir Destino / Distancia</label>
+                        <select id="routeSelect" class="select-custom">
+                            <option value="10" data-tn="12010">Corta distancia (Hasta 10 km) — Ref: $12.010/Tn</option>
+                            <option value="900" data-tn="103138" selected>Media/Larga distancia (900 km) — Ref: $103.138/Tn</option>
+                            <option value="1500" data-tn="148417">Larga distancia (Hasta 1.500 km) — Ref: $148.417/Tn</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm text-slate-400 mb-1">Toneladas</label>
+                            <input type="number" id="realTons" value="30" class="input-subcustom">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-slate-400 mb-1">Tarifa ($/Tn)</label>
+                            <input type="number" id="agreedRate" value="105000" class="input-subcustom">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel de Resultados -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="kpi-card border-amber-500/30">
+                        <span class="text-xs text-slate-400 uppercase font-semibold">Previsión Total</span>
+                        <div id="kpiPrevision" class="text-2xl font-black text-amber-400 font-mono mt-1">$0</div>
+                    </div>
+                    <div class="kpi-card border-emerald-500/30">
+                        <span class="text-xs text-slate-400 uppercase font-semibold">Costo Ref. FADEEAC</span>
+                        <div id="kpiFadeeac" class="text-2xl font-black text-emerald-400 font-mono mt-1">$0</div>
+                    </div>
+                    <div class="kpi-card border-slate-700">
+                        <span class="text-xs text-slate-400 uppercase font-semibold">Desvío de Tarifa</span>
+                        <div id="kpiDeviation" class="text-2xl font-black font-mono mt-1">$0</div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800 rounded-xl border border-slate-700 shadow-xl overflow-hidden">
+                    <div class="p-5 border-b border-slate-700 flex justify-between items-center">
+                        <h3 class="font-bold text-lg text-slate-200">Desglose de Costos</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-900/50 text-slate-400 text-xs uppercase tracking-wider border-b border-slate-700">
+                                    <th class="p-4">Concepto</th>
+                                    <th class="p-4 text-center">Peso (%)</th>
+                                    <th class="p-4 text-right">Gasto Base</th>
+                                    <th class="p-4 text-center">Aumento</th>
+                                    <th class="p-4 text-right text-amber-400">Previsión</th>
+                                </tr>
+                            </thead>
+                            <tbody id="costTableBody" class="divide-y divide-slate-700/50 text-sm font-mono">
+                                <!-- Filas dinámicas -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vinculación de la lógica del simulador -->
+    <script src="app.js"></script>
+</body>
+</html>
