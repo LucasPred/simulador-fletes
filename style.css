@@ -1,0 +1,41 @@
+/* Clases personalizadas para estilizar el formulario de manera moderna */
+.input-custom {
+    width: 100%;
+    background-color: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 1.25rem;
+    color: #ffffff;
+    font-family: monospace;
+    transition: border-color 0.2s;
+}
+.input-custom:focus, .select-custom:focus, .input-subcustom:focus {
+    border-color: #fbbf24;
+    outline: none;
+}
+.select-custom {
+    width: 100%;
+    background-color: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    color: #ffffff;
+    font-size: 0.875rem;
+}
+.input-subcustom {
+    width: 100%;
+    background-color: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    color: #ffffff;
+    font-family: monospace;
+    font-size: 0.875rem;
+}
+.kpi-card {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), #1e293b);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border-width: 1px;
+}
